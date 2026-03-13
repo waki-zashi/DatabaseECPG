@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
+#include <time.h>
 
 EXEC SQL INCLUDE sqlca;
 
@@ -35,6 +36,25 @@ EXEC SQL BEGIN DECLARE SECTION;
     int out_year;
 EXEC SQL END DECLARE SECTION;
 
+void log_message(const char* message) {
+    FILE* log_file = fopen("app.log", "a");
+    if (log_file) {
+        time_t now;
+        time(&now);
+        char* timestamp = ctime(&now);
+        timestamp[strlen(timestamp) - 1] = '\0';
+        
+        fprintf(log_file, "[%s] %s\n", timestamp, message);
+        fclose(log_file);
+    }
+}
+
+void log_action(const char* action, const char* details) {
+    char log_entry[512];
+    sprintf_s(log_entry, sizeof(log_entry), "%s: %s", action, details);
+    log_message(log_entry);
+}
+
 void print_sql_error() {
     if (sqlca.sqlcode < 0) {
         printf("\n=== SQL ERROR ===\n");
@@ -42,6 +62,12 @@ void print_sql_error() {
         printf("Message: %s\n", sqlca.sqlerrm.sqlerrmc);
         printf("SQLSTATE: %s\n", sqlca.sqlstate);
         printf("=================\n\n");
+        
+        char error_log[512];
+        sprintf_s(error_log, sizeof(error_log), 
+                  "SQL ERROR - Code: %ld, Message: %s, SQLSTATE: %s",
+                  sqlca.sqlcode, sqlca.sqlerrm.sqlerrmc, sqlca.sqlstate);
+        log_message(error_log);
     }
 }
 
@@ -59,15 +85,21 @@ void print_book_row() {
 }
 
 void show_all_books() {
+    log_action("Action", "Show all books started");
     EXEC SQL DECLARE books_cur CURSOR FOR SELECT * FROM sp_get_all_books();
 
     EXEC SQL OPEN books_cur;
-    if (sqlca.sqlcode != 0) { print_sql_error(); return; }
+    if (sqlca.sqlcode != 0) { 
+        print_sql_error(); 
+        log_action("Error", "Failed to show all books");
+        return; 
+    }
 
     printf("\n=== All Books ===\n");
     printf("|  ID   | Title                                    | Author                         | Genre                | Year |\n");
     printf("|-------|------------------------------------------|--------------------------------|----------------------|------|\n");
 
+    int book_count = 0;
     for (;;) {
         EXEC SQL FETCH NEXT FROM books_cur
                  INTO :out_id, :out_title, :out_author, :out_genre, :out_year;
@@ -75,10 +107,15 @@ void show_all_books() {
         if (sqlca.sqlcode != 0) break;
 
         print_book_row();
+        book_count++;
     }
 
     EXEC SQL CLOSE books_cur;
-    printf("\n");
+    printf("\nTotal books: %d\n", book_count);
+    
+    char log_detail[256];
+    sprintf_s(log_detail, sizeof(log_detail), "Displayed %d books", book_count);
+    log_action("Show all books completed", log_detail);
 }
 
 void search_books() {
@@ -94,10 +131,19 @@ void search_books() {
     fgets(search_value, sizeof(search_value), stdin);
     search_value[strcspn(search_value, "\n")] = 0;
 
+    char search_log[256];
+    sprintf_s(search_log, sizeof(search_log), "Search by choice %d, value: '%s'", 
+              search_choice, search_value);
+    log_action("Search started", search_log);
+
     if (search_choice == 1) {
         EXEC SQL DECLARE search_cur_title CURSOR FOR SELECT * FROM sp_find_by_title(:search_value);
         EXEC SQL OPEN search_cur_title;
-        if (sqlca.sqlcode != 0) { print_sql_error(); return; }
+        if (sqlca.sqlcode != 0) { 
+            print_sql_error(); 
+            log_action("Error", "Search by title failed");
+            return; 
+        }
         
         printf("\n=== Search Results ===\n");
         printf("|  ID   | Title                                    | Author                         | Genre                | Year |\n");
@@ -114,10 +160,17 @@ void search_books() {
         EXEC SQL CLOSE search_cur_title;
         printf("\nFound records: %d\n", count);
         
+        sprintf_s(search_log, sizeof(search_log), "Found %d books by title '%s'", count, search_value);
+        log_action("Search completed", search_log);
+        
     } else if (search_choice == 2) {
         EXEC SQL DECLARE search_cur_author CURSOR FOR SELECT * FROM sp_find_by_author(:search_value);
         EXEC SQL OPEN search_cur_author;
-        if (sqlca.sqlcode != 0) { print_sql_error(); return; }
+        if (sqlca.sqlcode != 0) { 
+            print_sql_error(); 
+            log_action("Error", "Search by author failed");
+            return; 
+        }
         
         printf("\n=== Search Results ===\n");
         printf("|  ID   | Title                                    | Author                         | Genre                | Year |\n");
@@ -134,10 +187,17 @@ void search_books() {
         EXEC SQL CLOSE search_cur_author;
         printf("\nFound records: %d\n", count);
         
+        sprintf_s(search_log, sizeof(search_log), "Found %d books by author '%s'", count, search_value);
+        log_action("Search completed", search_log);
+        
     } else if (search_choice == 3) {
         EXEC SQL DECLARE search_cur_genre CURSOR FOR SELECT * FROM sp_find_by_genre(:search_value);
         EXEC SQL OPEN search_cur_genre;
-        if (sqlca.sqlcode != 0) { print_sql_error(); return; }
+        if (sqlca.sqlcode != 0) { 
+            print_sql_error(); 
+            log_action("Error", "Search by genre failed");
+            return; 
+        }
         
         printf("\n=== Search Results ===\n");
         printf("|  ID   | Title                                    | Author                         | Genre                | Year |\n");
@@ -154,30 +214,49 @@ void search_books() {
         EXEC SQL CLOSE search_cur_genre;
         printf("\nFound records: %d\n", count);
         
+        sprintf_s(search_log, sizeof(search_log), "Found %d books by genre '%s'", count, search_value);
+        log_action("Search completed", search_log);
+        
     } else {
         printf("Invalid choice!\n");
+        log_action("Warning", "Invalid search choice");
         return;
     }
 }
 
 void add_book() {
-    if (!is_admin) { printf("Access denied!\n"); return; }
+    if (!is_admin) { 
+        printf("Access denied!\n");
+        log_action("Warning", "Non-admin tried to add book");
+        return; 
+    }
 
     printf("Title: ");   fgets(title,   sizeof(title),   stdin); title[strcspn(title, "\n")] = 0;
     printf("Author: ");  fgets(author,  sizeof(author),  stdin); author[strcspn(author, "\n")] = 0;
     printf("Genre: ");   fgets(genre,   sizeof(genre),   stdin); genre[strcspn(genre, "\n")] = 0;
     printf("Year: ");    scanf_s("%d", &book_year); getchar();
 
+    char book_log[512];
+    sprintf_s(book_log, sizeof(book_log), "Adding book: '%s' by %s, genre %s, year %d", 
+              title, author, genre, book_year);
+    log_action("Add book started", book_log);
+
     EXEC SQL CALL sp_add_book(:title, :author, :genre, :book_year);
     if (sqlca.sqlcode == 0) {
         printf("Book added successfully!\n");
+        log_action("Add book completed", book_log);
     } else {
         print_sql_error();
+        log_action("Add book failed", book_log);
     }
 }
 
 void update_book() {
-    if (!is_admin) { printf("Access denied!\n"); return; }
+    if (!is_admin) { 
+        printf("Access denied!\n");
+        log_action("Warning", "Non-admin tried to update book");
+        return; 
+    }
 
     printf("Book ID to update: ");
     scanf_s("%d", &book_id); getchar();
@@ -187,47 +266,76 @@ void update_book() {
     printf("New genre: ");  fgets(genre,   sizeof(genre),   stdin); genre[strcspn(genre, "\n")] = 0;
     printf("New year: ");   scanf_s("%d", &book_year); getchar();
 
+    char update_log[512];
+    sprintf_s(update_log, sizeof(update_log), 
+              "Updating book ID %d: title='%s', author='%s', genre='%s', year=%d", 
+              book_id, title, author, genre, book_year);
+    log_action("Update book started", update_log);
+
     EXEC SQL CALL sp_update_book(:book_id, :title, :author, :genre, :book_year);
     if (sqlca.sqlcode == 0) {
         printf("Book updated successfully!\n");
+        log_action("Update book completed", update_log);
     } else {
         print_sql_error();
+        log_action("Update book failed", update_log);
     }
 }
 
 void delete_by_id() {
-    if (!is_admin) { printf("Access denied!\n"); return; }
+    if (!is_admin) { 
+        printf("Access denied!\n");
+        log_action("Warning", "Non-admin tried to delete book");
+        return; 
+    }
 
     printf("Book ID to delete: ");
     scanf_s("%d", &book_id); getchar();
 
+    char delete_log[128];
+    sprintf_s(delete_log, sizeof(delete_log), "Deleting book ID %d", book_id);
+    log_action("Delete book started", delete_log);
+
     EXEC SQL CALL sp_delete_by_id(:book_id);
     if (sqlca.sqlcode == 0) {
         printf("Book deleted successfully!\n");
+        log_action("Delete book completed", delete_log);
     } else {
         print_sql_error();
+        log_action("Delete book failed", delete_log);
     }
 }
 
 void clear_table() {
-    if (!is_admin) { printf("Access denied!\n"); return; }
+    if (!is_admin) { 
+        printf("Access denied!\n");
+        log_action("Warning", "Non-admin tried to clear table");
+        return; 
+    }
 
     char confirm[10];
     printf("Clear entire table? (yes/no): ");
     fgets(confirm, sizeof(confirm), stdin);
-    if (strncmp(confirm, "yes", 3) != 0) return;
+    if (strncmp(confirm, "yes", 3) != 0) {
+        log_action("Clear table", "Cancelled by user");
+        return;
+    }
 
+    log_action("Clear table started", "Clearing all books");
     EXEC SQL CALL sp_clear_table();
     if (sqlca.sqlcode == 0) {
         printf("Table cleared successfully!\n");
+        log_action("Clear table completed", "All books removed");
     } else {
         print_sql_error();
+        log_action("Clear table failed", "SQL error occurred");
     }
 }
 
 void create_user() {
     if (!is_admin) {
         printf("Access denied!\n");
+        log_action("Warning", "Non-admin tried to create user");
         return;
     }
 
@@ -243,6 +351,10 @@ void create_user() {
     fgets(new_role, sizeof(new_role), stdin);
     new_role[strcspn(new_role, "\n")] = 0;
 
+    char user_log[256];
+    sprintf_s(user_log, sizeof(user_log), "Creating user: %s, role: %s", new_username, new_role);
+    log_action("Create user started", user_log);
+
     printf("[DEBUG] Creating user:\n");
     printf("Username: '%s'\n", new_username);
     printf("Password: '%s'\n", new_password);
@@ -253,8 +365,10 @@ void create_user() {
     if (sqlca.sqlcode == 0) {
         printf("User created successfully!\n");
         printf("[LOG] Create user %s role=%s\n", new_username, new_role);
+        log_action("Create user completed", user_log);
     } else {
         print_sql_error();
+        log_action("Create user failed", user_log);
     }
 }
 
@@ -275,6 +389,7 @@ int database_exists(const char* host, const char* port, const char* dbname) {
     
     if (sqlca.sqlcode != 0) {
         printf("Cannot connect to postgres database for checking.\n");
+        log_action("Database check", "Failed to connect to postgres database");
         return 0;
     }
     
@@ -297,10 +412,15 @@ int create_database(const char* host, const char* port, const char* dbname) {
     strcpy_s(create_conn_str, sizeof(create_conn_str), temp_conn_str);
     strcpy_s(new_dbname, sizeof(new_dbname), dbname);
     
+    char db_log[256];
+    sprintf_s(db_log, sizeof(db_log), "Attempting to create database '%s'", dbname);
+    log_action("Database creation started", db_log);
+    
     EXEC SQL CONNECT TO :create_conn_str USER "postgres" USING "admin";
     
     if (sqlca.sqlcode != 0) {
         printf("Cannot connect to postgres database for creation.\n");
+        log_action("Database creation failed", "Cannot connect to postgres");
         return 0;
     }
     
@@ -314,10 +434,14 @@ int create_database(const char* host, const char* port, const char* dbname) {
     if (sqlca.sqlcode != 0) {
         print_sql_error();
         EXEC SQL DISCONNECT CURRENT;
+        sprintf_s(db_log, sizeof(db_log), "Database '%s' creation failed", dbname);
+        log_action("Database creation failed", db_log);
         return 0;
     }
     
     printf("Database '%s' created successfully.\n", dbname);
+    sprintf_s(db_log, sizeof(db_log), "Database '%s' created successfully", dbname);
+    log_action("Database creation completed", db_log);
     
     EXEC SQL DISCONNECT CURRENT;
     return 1;
@@ -353,6 +477,9 @@ int setup_database() {
     if (choice == 2) {
         if (database_exists(db_host, db_port, db_name)) {
             printf("Database '%s' already exists.\n", db_name);
+            char exists_log[256];
+            sprintf_s(exists_log, sizeof(exists_log), "Database '%s' already exists", db_name);
+            log_action("Database setup", exists_log);
             printf("Connect to it? (y/n): ");
             char confirm = getchar();
             getchar();
@@ -379,6 +506,9 @@ int main() {
     SetConsoleOutputCP(1251);
     system("chcp 1251 > nul");
 
+    log_message("=== Application Started ===");
+    log_action("Version", "ECPG Library Management System");
+
     int action;
     int back_to_start = 0;
     
@@ -396,7 +526,8 @@ int main() {
         getchar();
 
         if (action == 0) {
-            printf("Goodbye!\n");
+            log_message("=== Application Ended ===");
+            printf("Ending of work...\n");
             return 0;
         }
 
@@ -407,30 +538,51 @@ int main() {
             continue;
         }
 
+        char menu_log[128];
+        sprintf_s(menu_log, sizeof(menu_log), "Selected option: %s", 
+                  action == 1 ? "Connect to existing" : "Create new");
+        log_action("Main Menu", menu_log);
+
         printf("\n=== PostgreSQL Server Connection (enter 0 to go back) ===\n");
         
         printf("Host [localhost]: ");
         fgets(db_host, sizeof(db_host), stdin);
         db_host[strcspn(db_host, "\n")] = 0;
-        if (strlen(db_host) == 1 && db_host[0] == '0') { back_to_start = 1; continue; }
+        if (strlen(db_host) == 1 && db_host[0] == '0') { 
+            log_action("Setup", "Returned to main menu");
+            back_to_start = 1; 
+            continue; 
+        }
         if (strlen(db_host) == 0) strcpy_s(db_host, sizeof(db_host), "localhost");
         
         printf("Port [5433]: ");
         fgets(db_port, sizeof(db_port), stdin);
         db_port[strcspn(db_port, "\n")] = 0;
-        if (strlen(db_port) == 1 && db_port[0] == '0') { back_to_start = 1; continue; }
+        if (strlen(db_port) == 1 && db_port[0] == '0') { 
+            log_action("Setup", "Returned to main menu");
+            back_to_start = 1; 
+            continue; 
+        }
         if (strlen(db_port) == 0) strcpy_s(db_port, sizeof(db_port), "5433");
         
         printf("Superuser [postgres]: ");
         fgets(db_admin_user, sizeof(db_admin_user), stdin);
         db_admin_user[strcspn(db_admin_user, "\n")] = 0;
-        if (strlen(db_admin_user) == 1 && db_admin_user[0] == '0') { back_to_start = 1; continue; }
+        if (strlen(db_admin_user) == 1 && db_admin_user[0] == '0') { 
+            log_action("Setup", "Returned to main menu");
+            back_to_start = 1; 
+            continue; 
+        }
         if (strlen(db_admin_user) == 0) strcpy_s(db_admin_user, sizeof(db_admin_user), "postgres");
         
         printf("Superuser password (enter 0 to go back): ");
         fgets(db_admin_pass, sizeof(db_admin_pass), stdin);
         db_admin_pass[strcspn(db_admin_pass, "\n")] = 0;
-        if (strlen(db_admin_pass) == 1 && db_admin_pass[0] == '0') { back_to_start = 1; continue; }
+        if (strlen(db_admin_pass) == 1 && db_admin_pass[0] == '0') { 
+            log_action("Setup", "Returned to main menu");
+            back_to_start = 1; 
+            continue; 
+        }
 
         char temp_conn_str[128];
         sprintf_s(temp_conn_str, sizeof(temp_conn_str), "%s@%s:%s", "postgres", db_host, db_port);
@@ -444,6 +596,7 @@ int main() {
         strcpy_s(check_conn_str, sizeof(check_conn_str), temp_conn_str);
         
         printf("Connecting to PostgreSQL server...\n");
+        log_action("Connection", "Attempting to connect to PostgreSQL server");
         EXEC SQL CONNECT TO :check_conn_str USER :db_admin_user USING :db_admin_pass;
         
         if (sqlca.sqlcode != 0) {
@@ -452,9 +605,14 @@ int main() {
             printf("Press Enter to try again or 0 to go back: ");
             char choice = getchar();
             getchar();
-            if (choice == '0') { back_to_start = 1; continue; }
+            if (choice == '0') { 
+                log_action("Connection", "Connection failed, returning to main menu");
+                back_to_start = 1; 
+                continue; 
+            }
             else continue;
         }
+        log_action("Connection", "Successfully connected to PostgreSQL server");
 
         if (action == 2) {
             printf("\n=== Create New Database (enter 0 to go back) ===\n");
@@ -464,6 +622,7 @@ int main() {
             
             if (strlen(db_name) == 1 && db_name[0] == '0') { 
                 EXEC SQL DISCONNECT CURRENT;
+                log_action("Setup", "Database creation cancelled, returning to main menu");
                 back_to_start = 1; 
                 continue; 
             }
@@ -480,6 +639,10 @@ int main() {
             
             if (exists) {
                 printf("Database '%s' already exists.\n", db_name);
+                char exists_log[256];
+                sprintf_s(exists_log, sizeof(exists_log), "Database '%s' already exists", db_name);
+                log_action("Database creation", exists_log);
+
                 printf("1. Connect to it\n");
                 printf("2. Choose another name\n");
                 printf("0. Go back\n");
@@ -491,16 +654,19 @@ int main() {
                 
                 if (subchoice == 0) {
                     EXEC SQL DISCONNECT CURRENT;
+                    log_action("Setup", "Database already exists, returning to main menu");
                     back_to_start = 1;
                     continue;
                 } else if (subchoice == 1) {
                     action = 1;
+                    log_action("Setup", "Will connect to existing database instead");
                 } else {
                     EXEC SQL DISCONNECT CURRENT;
                     continue;
                 }
             } else {
                 printf("Creating database '%s'...\n", db_name);
+                log_action("Database creation", db_name);
                 
                 EXEC SQL BEGIN DECLARE SECTION;
                     char create_sql[256];
@@ -512,6 +678,9 @@ int main() {
                 if (sqlca.sqlcode != 0) {
                     print_sql_error();
                     printf("Failed to create database.\n");
+                    char fail_log[256];
+                    sprintf_s(fail_log, sizeof(fail_log), "Database '%s' creation failed", db_name);
+                    log_action("Database creation failed", fail_log);
                     printf("Press Enter to continue...");
                     getchar();
                     EXEC SQL DISCONNECT CURRENT;
@@ -519,6 +688,9 @@ int main() {
                 }
                 
                 printf("Database '%s' created successfully.\n", db_name);
+                char db_log[128];
+                sprintf_s(db_log, sizeof(db_log), "Database '%s' created successfully", db_name);
+                log_action("Database creation", db_log);
             }
         }
 
@@ -530,6 +702,7 @@ int main() {
             
             if (strlen(db_name) == 1 && db_name[0] == '0') {
                 EXEC SQL DISCONNECT CURRENT;
+                log_action("Setup", "Connection cancelled, returning to main menu");
                 back_to_start = 1; 
                 continue; 
             }
@@ -545,6 +718,10 @@ int main() {
             
             if (!exists) {
                 printf("Database '%s' does not exist.\n", db_name);
+                char not_exists_log[256];
+                sprintf_s(not_exists_log, sizeof(not_exists_log), "Database '%s' does not exist", db_name);
+                log_action("Database check", not_exists_log);
+
                 printf("1. Try another name\n");
                 printf("2. Create it\n");
                 printf("0. Go back\n");
@@ -556,11 +733,13 @@ int main() {
                 
                 if (subchoice == 0) {
                     EXEC SQL DISCONNECT CURRENT;
+                    log_action("Setup", "Database not found, returning to main menu");
                     back_to_start = 1;
                     continue;
                 } else if (subchoice == 2) {
                     action = 2;
                     EXEC SQL DISCONNECT CURRENT;
+                    log_action("Setup", "Will create database instead");
                     continue;
                 } else {
                     EXEC SQL DISCONNECT CURRENT;
@@ -575,31 +754,50 @@ int main() {
         printf("Username: ");
         fgets(username, sizeof(username), stdin);
         username[strcspn(username, "\n")] = 0;
-        if (strlen(username) == 1 && username[0] == '0') { back_to_start = 1; continue; }
+        if (strlen(username) == 1 && username[0] == '0') { 
+            log_action("Login", "Login cancelled, returning to main menu");
+            back_to_start = 1; 
+            continue; 
+        }
         
         printf("Password: ");
         fgets(password, sizeof(password), stdin);
         password[strcspn(password, "\n")] = 0;
-        if (strlen(password) == 1 && password[0] == '0') { back_to_start = 1; continue; }
+        if (strlen(password) == 1 && password[0] == '0') { 
+            log_action("Login", "Login cancelled, returning to main menu");
+            back_to_start = 1; 
+            continue; 
+        }
 
         sprintf_s(conn_str, sizeof(conn_str), "%s@%s:%s", db_name, db_host, db_port);
         
         printf("\nConnecting to %s...\n", conn_str);
         printf("Username: %s\n", username);
         
+        char login_log[256];
+        sprintf_s(login_log, sizeof(login_log), "User '%s' attempting to connect to %s", 
+                  username, conn_str);
+        log_action("Login", login_log);
+        
         EXEC SQL CONNECT TO :conn_str USER :username USING :password;
 
         if (sqlca.sqlcode != 0) {
             print_sql_error();
             printf("Connection failed.\n");
+            log_action("Login failed", "Could not connect to database");
             printf("Press Enter to try again or 0 to go back: ");
             char choice = getchar();
             getchar();
-            if (choice == '0') { back_to_start = 1; continue; }
+            if (choice == '0') { 
+                log_action("Login", "Login failed, returning to main menu");
+                back_to_start = 1; 
+                continue; 
+            }
             else continue;
         }
 
         printf("Connected successfully!\n");
+        log_action("Login", "User successfully connected");
 
         EXEC SQL SELECT 
             CASE 
@@ -609,6 +807,11 @@ int main() {
         INTO :is_admin;
 
         printf("Mode: %s\n\n", is_admin ? "ADMINISTRATOR" : "GUEST");
+        char mode_log[64];
+        sprintf_s(mode_log, sizeof(mode_log), "User mode: %s", 
+                  is_admin ? "ADMINISTRATOR" : "GUEST");
+        log_action("Access", mode_log);
+        
         printf("Press Enter to continue...");
         getchar();
 
@@ -635,6 +838,8 @@ int main() {
 
             if (choice == 0) {
                 EXEC SQL DISCONNECT ALL;
+                log_message("User logged out normally");
+                log_message("=== Application Ended ===");
                 printf("Ending of work...\n");
                 return 0;
             }
@@ -642,6 +847,7 @@ int main() {
             if (choice == 8) {
                 EXEC SQL DISCONNECT ALL;
                 printf("Disconnected. Returning to start...\n");
+                log_action("Session", "User disconnected, returning to main menu");
                 back_to_start = 1;
                 break;
             }

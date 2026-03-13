@@ -1,0 +1,26 @@
+[Fri Mar 13 20:12:44 2026] === Application Started ===
+[Fri Mar 13 20:12:44 2026] Version: ECPG Library Management System
+[Fri Mar 13 20:12:45 2026] Main Menu: Selected option: Connect to existing
+[Fri Mar 13 20:12:47 2026] Connection: Attempting to connect to PostgreSQL server
+[Fri Mar 13 20:12:47 2026] Connection: Successfully connected to PostgreSQL server
+[Fri Mar 13 20:13:01 2026] Login: User 'admin_user' attempting to connect to library@localhost:5433
+[Fri Mar 13 20:13:01 2026] Login: User successfully connected
+[Fri Mar 13 20:13:01 2026] Access: User mode: ADMINISTRATOR
+[Fri Mar 13 20:13:08 2026] Action: Show all books started
+[Fri Mar 13 20:13:08 2026] Show all books completed: Displayed 3 books
+[Fri Mar 13 20:13:19 2026] Search started: Search by choice 1, value: '1984'
+[Fri Mar 13 20:13:19 2026] Search completed: Found 1 books by title '1984'
+[Fri Mar 13 20:13:24 2026] Session: User disconnected, returning to main menu
+[Fri Mar 13 20:13:25 2026] === Application Ended ===
+[Fri Mar 13 20:26:44 2026] === Application Started ===
+[Fri Mar 13 20:26:44 2026] Version: ECPG Library Management System
+[Fri Mar 13 20:26:47 2026] Main Menu: Selected option: Connect to existing
+[Fri Mar 13 20:26:49 2026] Connection: Attempting to connect to PostgreSQL server
+[Fri Mar 13 20:26:49 2026] Connection: Successfully connected to PostgreSQL server
+[Fri Mar 13 20:27:00 2026] Login: User 'admin_user' attempting to connect to library@localhost:5433
+[Fri Mar 13 20:27:00 2026] Login: User successfully connected
+[Fri Mar 13 20:27:00 2026] Access: User mode: ADMINISTRATOR
+[Fri Mar 13 20:27:02 2026] Action: Show all books started
+[Fri Mar 13 20:27:02 2026] Show all books completed: Displayed 3 books
+[Fri Mar 13 20:27:23 2026] Session: User disconnected, returning to main menu
+[Fri Mar 13 20:27:26 2026] === Application Ended ===

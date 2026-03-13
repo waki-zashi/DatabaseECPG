@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
+#include <time.h>
 
 
 #line 1 "c:\\Program Files\\PostgreSQL\\18\\include/sqlca.h"
@@ -81,7 +82,7 @@ struct sqlca_t *ECPGget_sqlca(void);
 
 #endif
 
-#line 7 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 8 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
 
 /* exec sql begin declare section */
@@ -112,83 +113,102 @@ struct sqlca_t *ECPGget_sqlca(void);
      
      
 
-#line 10 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 11 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char conn_str [ 128 ] ;
  
-#line 11 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 12 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char username [ 64 ] ;
  
-#line 12 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 13 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char password [ 64 ] ;
  
-#line 13 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 14 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char title [ 256 ] ;
  
-#line 14 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 15 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char author [ 256 ] ;
  
-#line 15 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 16 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char genre [ 256 ] ;
  
-#line 16 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 17 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  int book_year ;
  
-#line 17 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 18 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  int book_id ;
  
-#line 18 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 19 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  int search_choice ;
  
-#line 19 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 20 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char search_value [ 256 ] ;
  
-#line 20 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 21 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  int is_admin = 0 ;
  
-#line 21 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 22 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char new_username [ 64 ] ;
  
-#line 22 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 23 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char new_password [ 64 ] ;
  
-#line 23 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 24 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char new_role [ 32 ] ;
  
-#line 24 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 25 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char current_schema [ 128 ] ;
  
-#line 25 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 26 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char db_host [ 64 ] ;
  
-#line 26 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 27 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char db_port [ 16 ] ;
  
-#line 27 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 28 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char db_name [ 64 ] ;
  
-#line 28 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 29 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char db_admin_user [ 64 ] ;
  
-#line 29 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 30 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char db_admin_pass [ 64 ] ;
  
-#line 31 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 32 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  int out_id ;
  
-#line 32 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 33 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
   struct varchar_1  { int len; char arr[ 256 ]; }  out_title ;
  
-#line 33 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 34 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
   struct varchar_2  { int len; char arr[ 256 ]; }  out_author ;
  
-#line 34 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 35 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
   struct varchar_3  { int len; char arr[ 256 ]; }  out_genre ;
  
-#line 35 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 36 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  int out_year ;
 /* exec sql end declare section */
-#line 36 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 37 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
+
+void log_message(const char* message) {
+    FILE* log_file = fopen("app.log", "a");
+    if (log_file) {
+        time_t now;
+        time(&now);
+        char* timestamp = ctime(&now);
+        timestamp[strlen(timestamp) - 1] = '\0';
+        
+        fprintf(log_file, "[%s] %s\n", timestamp, message);
+        fclose(log_file);
+    }
+}
+
+void log_action(const char* action, const char* details) {
+    char log_entry[512];
+    sprintf_s(log_entry, sizeof(log_entry), "%s: %s", action, details);
+    log_message(log_entry);
+}
 
 void print_sql_error() {
     if (sqlca.sqlcode < 0) {
@@ -197,6 +217,12 @@ void print_sql_error() {
         printf("Message: %s\n", sqlca.sqlerrm.sqlerrmc);
         printf("SQLSTATE: %s\n", sqlca.sqlstate);
         printf("=================\n\n");
+        
+        char error_log[512];
+        sprintf_s(error_log, sizeof(error_log), 
+                  "SQL ERROR - Code: %ld, Message: %s, SQLSTATE: %s",
+                  sqlca.sqlcode, sqlca.sqlerrm.sqlerrmc, sqlca.sqlstate);
+        log_message(error_log);
     }
 }
 
@@ -214,19 +240,25 @@ void print_book_row() {
 }
 
 void show_all_books() {
+    log_action("Action", "Show all books started");
     /* declare books_cur cursor for select * from sp_get_all_books ( ) */
-#line 62 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 89 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
 
     { ECPGdo(__LINE__, 0, 1, NULL, 0, ECPGst_normal, "declare books_cur cursor for select * from sp_get_all_books ( )", ECPGt_EOIT, ECPGt_EORT);}
-#line 64 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 91 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
-    if (sqlca.sqlcode != 0) { print_sql_error(); return; }
+    if (sqlca.sqlcode != 0) { 
+        print_sql_error(); 
+        log_action("Error", "Failed to show all books");
+        return; 
+    }
 
     printf("\n=== All Books ===\n");
     printf("|  ID   | Title                                    | Author                         | Genre                | Year |\n");
     printf("|-------|------------------------------------------|--------------------------------|----------------------|------|\n");
 
+    int book_count = 0;
     for (;;) {
         { ECPGdo(__LINE__, 0, 1, NULL, 0, ECPGst_normal, "fetch next from books_cur", ECPGt_EOIT, 
 	ECPGt_int,&(out_id),(long)1,(long)1,sizeof(int), 
@@ -239,18 +271,23 @@ void show_all_books() {
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, 
 	ECPGt_int,&(out_year),(long)1,(long)1,sizeof(int), 
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, ECPGt_EORT);}
-#line 73 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 105 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
 
         if (sqlca.sqlcode != 0) break;
 
         print_book_row();
+        book_count++;
     }
 
     { ECPGdo(__LINE__, 0, 1, NULL, 0, ECPGst_normal, "close books_cur", ECPGt_EOIT, ECPGt_EORT);}
-#line 80 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 113 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
-    printf("\n");
+    printf("\nTotal books: %d\n", book_count);
+    
+    char log_detail[256];
+    sprintf_s(log_detail, sizeof(log_detail), "Displayed %d books", book_count);
+    log_action("Show all books completed", log_detail);
 }
 
 void search_books() {
@@ -266,16 +303,25 @@ void search_books() {
     fgets(search_value, sizeof(search_value), stdin);
     search_value[strcspn(search_value, "\n")] = 0;
 
+    char search_log[256];
+    sprintf_s(search_log, sizeof(search_log), "Search by choice %d, value: '%s'", 
+              search_choice, search_value);
+    log_action("Search started", search_log);
+
     if (search_choice == 1) {
         /* declare search_cur_title cursor for select * from sp_find_by_title ( $1  ) */
-#line 98 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 140 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
         { ECPGdo(__LINE__, 0, 1, NULL, 0, ECPGst_normal, "declare search_cur_title cursor for select * from sp_find_by_title ( $1  )", 
 	ECPGt_char,(search_value),(long)256,(long)1,(256)*sizeof(char), 
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, ECPGt_EOIT, ECPGt_EORT);}
-#line 99 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 141 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
-        if (sqlca.sqlcode != 0) { print_sql_error(); return; }
+        if (sqlca.sqlcode != 0) { 
+            print_sql_error(); 
+            log_action("Error", "Search by title failed");
+            return; 
+        }
         
         printf("\n=== Search Results ===\n");
         printf("|  ID   | Title                                    | Author                         | Genre                | Year |\n");
@@ -294,7 +340,7 @@ void search_books() {
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, 
 	ECPGt_int,&(out_year),(long)1,(long)1,sizeof(int), 
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, ECPGt_EORT);}
-#line 108 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 154 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
             if (sqlca.sqlcode != 0) break;
             print_book_row();
@@ -302,20 +348,27 @@ void search_books() {
         }
         
         { ECPGdo(__LINE__, 0, 1, NULL, 0, ECPGst_normal, "close search_cur_title", ECPGt_EOIT, ECPGt_EORT);}
-#line 114 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 160 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
         printf("\nFound records: %d\n", count);
         
+        sprintf_s(search_log, sizeof(search_log), "Found %d books by title '%s'", count, search_value);
+        log_action("Search completed", search_log);
+        
     } else if (search_choice == 2) {
         /* declare search_cur_author cursor for select * from sp_find_by_author ( $1  ) */
-#line 118 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 167 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
         { ECPGdo(__LINE__, 0, 1, NULL, 0, ECPGst_normal, "declare search_cur_author cursor for select * from sp_find_by_author ( $1  )", 
 	ECPGt_char,(search_value),(long)256,(long)1,(256)*sizeof(char), 
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, ECPGt_EOIT, ECPGt_EORT);}
-#line 119 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 168 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
-        if (sqlca.sqlcode != 0) { print_sql_error(); return; }
+        if (sqlca.sqlcode != 0) { 
+            print_sql_error(); 
+            log_action("Error", "Search by author failed");
+            return; 
+        }
         
         printf("\n=== Search Results ===\n");
         printf("|  ID   | Title                                    | Author                         | Genre                | Year |\n");
@@ -334,7 +387,7 @@ void search_books() {
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, 
 	ECPGt_int,&(out_year),(long)1,(long)1,sizeof(int), 
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, ECPGt_EORT);}
-#line 128 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 181 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
             if (sqlca.sqlcode != 0) break;
             print_book_row();
@@ -342,20 +395,27 @@ void search_books() {
         }
         
         { ECPGdo(__LINE__, 0, 1, NULL, 0, ECPGst_normal, "close search_cur_author", ECPGt_EOIT, ECPGt_EORT);}
-#line 134 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 187 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
         printf("\nFound records: %d\n", count);
         
+        sprintf_s(search_log, sizeof(search_log), "Found %d books by author '%s'", count, search_value);
+        log_action("Search completed", search_log);
+        
     } else if (search_choice == 3) {
         /* declare search_cur_genre cursor for select * from sp_find_by_genre ( $1  ) */
-#line 138 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 194 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
         { ECPGdo(__LINE__, 0, 1, NULL, 0, ECPGst_normal, "declare search_cur_genre cursor for select * from sp_find_by_genre ( $1  )", 
 	ECPGt_char,(search_value),(long)256,(long)1,(256)*sizeof(char), 
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, ECPGt_EOIT, ECPGt_EORT);}
-#line 139 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 195 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
-        if (sqlca.sqlcode != 0) { print_sql_error(); return; }
+        if (sqlca.sqlcode != 0) { 
+            print_sql_error(); 
+            log_action("Error", "Search by genre failed");
+            return; 
+        }
         
         printf("\n=== Search Results ===\n");
         printf("|  ID   | Title                                    | Author                         | Genre                | Year |\n");
@@ -374,7 +434,7 @@ void search_books() {
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, 
 	ECPGt_int,&(out_year),(long)1,(long)1,sizeof(int), 
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, ECPGt_EORT);}
-#line 148 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 208 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
             if (sqlca.sqlcode != 0) break;
             print_book_row();
@@ -382,23 +442,36 @@ void search_books() {
         }
         
         { ECPGdo(__LINE__, 0, 1, NULL, 0, ECPGst_normal, "close search_cur_genre", ECPGt_EOIT, ECPGt_EORT);}
-#line 154 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 214 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
         printf("\nFound records: %d\n", count);
         
+        sprintf_s(search_log, sizeof(search_log), "Found %d books by genre '%s'", count, search_value);
+        log_action("Search completed", search_log);
+        
     } else {
         printf("Invalid choice!\n");
+        log_action("Warning", "Invalid search choice");
         return;
     }
 }
 
 void add_book() {
-    if (!is_admin) { printf("Access denied!\n"); return; }
+    if (!is_admin) { 
+        printf("Access denied!\n");
+        log_action("Warning", "Non-admin tried to add book");
+        return; 
+    }
 
     printf("Title: ");   fgets(title,   sizeof(title),   stdin); title[strcspn(title, "\n")] = 0;
     printf("Author: ");  fgets(author,  sizeof(author),  stdin); author[strcspn(author, "\n")] = 0;
     printf("Genre: ");   fgets(genre,   sizeof(genre),   stdin); genre[strcspn(genre, "\n")] = 0;
     printf("Year: ");    scanf_s("%d", &book_year); getchar();
+
+    char book_log[512];
+    sprintf_s(book_log, sizeof(book_log), "Adding book: '%s' by %s, genre %s, year %d", 
+              title, author, genre, book_year);
+    log_action("Add book started", book_log);
 
     { ECPGdo(__LINE__, 0, 1, NULL, 0, ECPGst_normal, "call sp_add_book ( $1  , $2  , $3  , $4  )", 
 	ECPGt_char,(title),(long)256,(long)1,(256)*sizeof(char), 
@@ -409,17 +482,23 @@ void add_book() {
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, 
 	ECPGt_int,&(book_year),(long)1,(long)1,sizeof(int), 
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, ECPGt_EOIT, ECPGt_EORT);}
-#line 171 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 244 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
     if (sqlca.sqlcode == 0) {
         printf("Book added successfully!\n");
+        log_action("Add book completed", book_log);
     } else {
         print_sql_error();
+        log_action("Add book failed", book_log);
     }
 }
 
 void update_book() {
-    if (!is_admin) { printf("Access denied!\n"); return; }
+    if (!is_admin) { 
+        printf("Access denied!\n");
+        log_action("Warning", "Non-admin tried to update book");
+        return; 
+    }
 
     printf("Book ID to update: ");
     scanf_s("%d", &book_id); getchar();
@@ -428,6 +507,12 @@ void update_book() {
     printf("New author: "); fgets(author,  sizeof(author),  stdin); author[strcspn(author, "\n")] = 0;
     printf("New genre: ");  fgets(genre,   sizeof(genre),   stdin); genre[strcspn(genre, "\n")] = 0;
     printf("New year: ");   scanf_s("%d", &book_year); getchar();
+
+    char update_log[512];
+    sprintf_s(update_log, sizeof(update_log), 
+              "Updating book ID %d: title='%s', author='%s', genre='%s', year=%d", 
+              book_id, title, author, genre, book_year);
+    log_action("Update book started", update_log);
 
     { ECPGdo(__LINE__, 0, 1, NULL, 0, ECPGst_normal, "call sp_update_book ( $1  , $2  , $3  , $4  , $5  )", 
 	ECPGt_int,&(book_id),(long)1,(long)1,sizeof(int), 
@@ -440,54 +525,77 @@ void update_book() {
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, 
 	ECPGt_int,&(book_year),(long)1,(long)1,sizeof(int), 
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, ECPGt_EOIT, ECPGt_EORT);}
-#line 190 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 275 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
     if (sqlca.sqlcode == 0) {
         printf("Book updated successfully!\n");
+        log_action("Update book completed", update_log);
     } else {
         print_sql_error();
+        log_action("Update book failed", update_log);
     }
 }
 
 void delete_by_id() {
-    if (!is_admin) { printf("Access denied!\n"); return; }
+    if (!is_admin) { 
+        printf("Access denied!\n");
+        log_action("Warning", "Non-admin tried to delete book");
+        return; 
+    }
 
     printf("Book ID to delete: ");
     scanf_s("%d", &book_id); getchar();
 
+    char delete_log[128];
+    sprintf_s(delete_log, sizeof(delete_log), "Deleting book ID %d", book_id);
+    log_action("Delete book started", delete_log);
+
     { ECPGdo(__LINE__, 0, 1, NULL, 0, ECPGst_normal, "call sp_delete_by_id ( $1  )", 
 	ECPGt_int,&(book_id),(long)1,(long)1,sizeof(int), 
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, ECPGt_EOIT, ECPGt_EORT);}
-#line 204 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 299 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
     if (sqlca.sqlcode == 0) {
         printf("Book deleted successfully!\n");
+        log_action("Delete book completed", delete_log);
     } else {
         print_sql_error();
+        log_action("Delete book failed", delete_log);
     }
 }
 
 void clear_table() {
-    if (!is_admin) { printf("Access denied!\n"); return; }
+    if (!is_admin) { 
+        printf("Access denied!\n");
+        log_action("Warning", "Non-admin tried to clear table");
+        return; 
+    }
 
     char confirm[10];
     printf("Clear entire table? (yes/no): ");
     fgets(confirm, sizeof(confirm), stdin);
-    if (strncmp(confirm, "yes", 3) != 0) return;
+    if (strncmp(confirm, "yes", 3) != 0) {
+        log_action("Clear table", "Cancelled by user");
+        return;
+    }
 
+    log_action("Clear table started", "Clearing all books");
     { ECPGdo(__LINE__, 0, 1, NULL, 0, ECPGst_normal, "call sp_clear_table ( )", ECPGt_EOIT, ECPGt_EORT);}
-#line 220 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 325 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
     if (sqlca.sqlcode == 0) {
         printf("Table cleared successfully!\n");
+        log_action("Clear table completed", "All books removed");
     } else {
         print_sql_error();
+        log_action("Clear table failed", "SQL error occurred");
     }
 }
 
 void create_user() {
     if (!is_admin) {
         printf("Access denied!\n");
+        log_action("Warning", "Non-admin tried to create user");
         return;
     }
 
@@ -503,6 +611,10 @@ void create_user() {
     fgets(new_role, sizeof(new_role), stdin);
     new_role[strcspn(new_role, "\n")] = 0;
 
+    char user_log[256];
+    sprintf_s(user_log, sizeof(user_log), "Creating user: %s, role: %s", new_username, new_role);
+    log_action("Create user started", user_log);
+
     printf("[DEBUG] Creating user:\n");
     printf("Username: '%s'\n", new_username);
     printf("Password: '%s'\n", new_password);
@@ -515,14 +627,16 @@ void create_user() {
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, 
 	ECPGt_char,(new_role),(long)32,(long)1,(32)*sizeof(char), 
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, ECPGt_EOIT, ECPGt_EORT);}
-#line 251 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 363 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
 
     if (sqlca.sqlcode == 0) {
         printf("User created successfully!\n");
         printf("[LOG] Create user %s role=%s\n", new_username, new_role);
+        log_action("Create user completed", user_log);
     } else {
         print_sql_error();
+        log_action("Create user failed", user_log);
     }
 }
 
@@ -535,27 +649,28 @@ int database_exists(const char* host, const char* port, const char* dbname) {
          
            
     
-#line 266 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 380 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char check_conn_str [ 128 ] ;
  
-#line 267 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 381 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char check_dbname [ 64 ] ;
  
-#line 268 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 382 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  int exists = 0 ;
 /* exec sql end declare section */
-#line 269 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 383 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
     
     strcpy_s(check_conn_str, sizeof(check_conn_str), temp_conn_str);
     strcpy_s(check_dbname, sizeof(check_dbname), dbname);
     
     { ECPGconnect(__LINE__, 0, check_conn_str , "postgres" , "admin" , NULL, 0); }
-#line 274 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 388 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
     
     if (sqlca.sqlcode != 0) {
         printf("Cannot connect to postgres database for checking.\n");
+        log_action("Database check", "Failed to connect to postgres database");
         return 0;
     }
     
@@ -564,11 +679,11 @@ int database_exists(const char* host, const char* port, const char* dbname) {
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, ECPGt_EOIT, 
 	ECPGt_int,&(exists),(long)1,(long)1,sizeof(int), 
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, ECPGt_EORT);}
-#line 281 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 396 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
     
     { ECPGdisconnect(__LINE__, "CURRENT");}
-#line 283 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 398 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
     
     return exists;
@@ -582,53 +697,62 @@ int create_database(const char* host, const char* port, const char* dbname) {
          
          
     
-#line 293 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 408 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char create_conn_str [ 128 ] ;
  
-#line 294 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 409 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char new_dbname [ 64 ] ;
 /* exec sql end declare section */
-#line 295 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 410 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
     
     strcpy_s(create_conn_str, sizeof(create_conn_str), temp_conn_str);
     strcpy_s(new_dbname, sizeof(new_dbname), dbname);
     
+    char db_log[256];
+    sprintf_s(db_log, sizeof(db_log), "Attempting to create database '%s'", dbname);
+    log_action("Database creation started", db_log);
+    
     { ECPGconnect(__LINE__, 0, create_conn_str , "postgres" , "admin" , NULL, 0); }
-#line 300 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 419 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
     
     if (sqlca.sqlcode != 0) {
         printf("Cannot connect to postgres database for creation.\n");
+        log_action("Database creation failed", "Cannot connect to postgres");
         return 0;
     }
     
     /* exec sql begin declare section */
          
     
-#line 308 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 428 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char create_sql [ 256 ] ;
 /* exec sql end declare section */
-#line 309 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 429 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
     
     sprintf_s(create_sql, sizeof(create_sql), "CREATE DATABASE %s", dbname);
     { ECPGdo(__LINE__, 0, 1, NULL, 0, ECPGst_exec_immediate, create_sql, ECPGt_EOIT, ECPGt_EORT);}
-#line 312 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 432 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
     
     if (sqlca.sqlcode != 0) {
         print_sql_error();
         { ECPGdisconnect(__LINE__, "CURRENT");}
-#line 316 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 436 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
+        sprintf_s(db_log, sizeof(db_log), "Database '%s' creation failed", dbname);
+        log_action("Database creation failed", db_log);
         return 0;
     }
     
     printf("Database '%s' created successfully.\n", dbname);
+    sprintf_s(db_log, sizeof(db_log), "Database '%s' created successfully", dbname);
+    log_action("Database creation completed", db_log);
     
     { ECPGdisconnect(__LINE__, "CURRENT");}
-#line 322 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 446 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
     return 1;
 }
@@ -663,6 +787,9 @@ int setup_database() {
     if (choice == 2) {
         if (database_exists(db_host, db_port, db_name)) {
             printf("Database '%s' already exists.\n", db_name);
+            char exists_log[256];
+            sprintf_s(exists_log, sizeof(exists_log), "Database '%s' already exists", db_name);
+            log_action("Database setup", exists_log);
             printf("Connect to it? (y/n): ");
             char confirm = getchar();
             getchar();
@@ -689,6 +816,9 @@ int main() {
     SetConsoleOutputCP(1251);
     system("chcp 1251 > nul");
 
+    log_message("=== Application Started ===");
+    log_action("Version", "ECPG Library Management System");
+
     int action;
     int back_to_start = 0;
     
@@ -706,7 +836,8 @@ int main() {
         getchar();
 
         if (action == 0) {
-            printf("Goodbye!\n");
+            log_message("=== Application Ended ===");
+            printf("Ending of work...\n");
             return 0;
         }
 
@@ -717,30 +848,51 @@ int main() {
             continue;
         }
 
+        char menu_log[128];
+        sprintf_s(menu_log, sizeof(menu_log), "Selected option: %s", 
+                  action == 1 ? "Connect to existing" : "Create new");
+        log_action("Main Menu", menu_log);
+
         printf("\n=== PostgreSQL Server Connection (enter 0 to go back) ===\n");
         
         printf("Host [localhost]: ");
         fgets(db_host, sizeof(db_host), stdin);
         db_host[strcspn(db_host, "\n")] = 0;
-        if (strlen(db_host) == 1 && db_host[0] == '0') { back_to_start = 1; continue; }
+        if (strlen(db_host) == 1 && db_host[0] == '0') { 
+            log_action("Setup", "Returned to main menu");
+            back_to_start = 1; 
+            continue; 
+        }
         if (strlen(db_host) == 0) strcpy_s(db_host, sizeof(db_host), "localhost");
         
         printf("Port [5433]: ");
         fgets(db_port, sizeof(db_port), stdin);
         db_port[strcspn(db_port, "\n")] = 0;
-        if (strlen(db_port) == 1 && db_port[0] == '0') { back_to_start = 1; continue; }
+        if (strlen(db_port) == 1 && db_port[0] == '0') { 
+            log_action("Setup", "Returned to main menu");
+            back_to_start = 1; 
+            continue; 
+        }
         if (strlen(db_port) == 0) strcpy_s(db_port, sizeof(db_port), "5433");
         
         printf("Superuser [postgres]: ");
         fgets(db_admin_user, sizeof(db_admin_user), stdin);
         db_admin_user[strcspn(db_admin_user, "\n")] = 0;
-        if (strlen(db_admin_user) == 1 && db_admin_user[0] == '0') { back_to_start = 1; continue; }
+        if (strlen(db_admin_user) == 1 && db_admin_user[0] == '0') { 
+            log_action("Setup", "Returned to main menu");
+            back_to_start = 1; 
+            continue; 
+        }
         if (strlen(db_admin_user) == 0) strcpy_s(db_admin_user, sizeof(db_admin_user), "postgres");
         
         printf("Superuser password (enter 0 to go back): ");
         fgets(db_admin_pass, sizeof(db_admin_pass), stdin);
         db_admin_pass[strcspn(db_admin_pass, "\n")] = 0;
-        if (strlen(db_admin_pass) == 1 && db_admin_pass[0] == '0') { back_to_start = 1; continue; }
+        if (strlen(db_admin_pass) == 1 && db_admin_pass[0] == '0') { 
+            log_action("Setup", "Returned to main menu");
+            back_to_start = 1; 
+            continue; 
+        }
 
         char temp_conn_str[128];
         sprintf_s(temp_conn_str, sizeof(temp_conn_str), "%s@%s:%s", "postgres", db_host, db_port);
@@ -750,23 +902,24 @@ int main() {
              
                
         
-#line 439 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 591 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char check_conn_str [ 128 ] ;
  
-#line 440 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 592 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char check_dbname [ 64 ] ;
  
-#line 441 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 593 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  int exists = 0 ;
 /* exec sql end declare section */
-#line 442 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 594 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
         
         strcpy_s(check_conn_str, sizeof(check_conn_str), temp_conn_str);
         
         printf("Connecting to PostgreSQL server...\n");
+        log_action("Connection", "Attempting to connect to PostgreSQL server");
         { ECPGconnect(__LINE__, 0, check_conn_str , db_admin_user , db_admin_pass , NULL, 0); }
-#line 447 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 600 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
         
         if (sqlca.sqlcode != 0) {
@@ -775,9 +928,14 @@ int main() {
             printf("Press Enter to try again or 0 to go back: ");
             char choice = getchar();
             getchar();
-            if (choice == '0') { back_to_start = 1; continue; }
+            if (choice == '0') { 
+                log_action("Connection", "Connection failed, returning to main menu");
+                back_to_start = 1; 
+                continue; 
+            }
             else continue;
         }
+        log_action("Connection", "Successfully connected to PostgreSQL server");
 
         if (action == 2) {
             printf("\n=== Create New Database (enter 0 to go back) ===\n");
@@ -787,8 +945,9 @@ int main() {
             
             if (strlen(db_name) == 1 && db_name[0] == '0') { 
                 { ECPGdisconnect(__LINE__, "CURRENT");}
-#line 466 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 624 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
+                log_action("Setup", "Database creation cancelled, returning to main menu");
                 back_to_start = 1; 
                 continue; 
             }
@@ -796,7 +955,7 @@ int main() {
             if (strlen(db_name) == 0) {
                 printf("Database name cannot be empty.\n");
                 { ECPGdisconnect(__LINE__, "CURRENT");}
-#line 473 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 632 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
                 continue;
             }
@@ -808,11 +967,15 @@ int main() {
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, ECPGt_EOIT, 
 	ECPGt_int,&(exists),(long)1,(long)1,sizeof(int), 
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, ECPGt_EORT);}
-#line 479 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 638 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
             
             if (exists) {
                 printf("Database '%s' already exists.\n", db_name);
+                char exists_log[256];
+                sprintf_s(exists_log, sizeof(exists_log), "Database '%s' already exists", db_name);
+                log_action("Database creation", exists_log);
+
                 printf("1. Connect to it\n");
                 printf("2. Choose another name\n");
                 printf("0. Go back\n");
@@ -824,47 +987,56 @@ int main() {
                 
                 if (subchoice == 0) {
                     { ECPGdisconnect(__LINE__, "CURRENT");}
-#line 493 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 656 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
+                    log_action("Setup", "Database already exists, returning to main menu");
                     back_to_start = 1;
                     continue;
                 } else if (subchoice == 1) {
                     action = 1;
+                    log_action("Setup", "Will connect to existing database instead");
                 } else {
                     { ECPGdisconnect(__LINE__, "CURRENT");}
-#line 499 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 664 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
                     continue;
                 }
             } else {
                 printf("Creating database '%s'...\n", db_name);
+                log_action("Database creation", db_name);
                 
                 /* exec sql begin declare section */
                      
                 
-#line 506 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 672 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
  char create_sql [ 256 ] ;
 /* exec sql end declare section */
-#line 507 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 673 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
                 
                 sprintf_s(create_sql, sizeof(create_sql), "CREATE DATABASE %s", db_name);
                 { ECPGdo(__LINE__, 0, 1, NULL, 0, ECPGst_exec_immediate, create_sql, ECPGt_EOIT, ECPGt_EORT);}
-#line 510 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 676 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
                 
                 if (sqlca.sqlcode != 0) {
                     print_sql_error();
                     printf("Failed to create database.\n");
+                    char fail_log[256];
+                    sprintf_s(fail_log, sizeof(fail_log), "Database '%s' creation failed", db_name);
+                    log_action("Database creation failed", fail_log);
                     printf("Press Enter to continue...");
                     getchar();
                     { ECPGdisconnect(__LINE__, "CURRENT");}
-#line 517 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 686 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
                     continue;
                 }
                 
                 printf("Database '%s' created successfully.\n", db_name);
+                char db_log[128];
+                sprintf_s(db_log, sizeof(db_log), "Database '%s' created successfully", db_name);
+                log_action("Database creation", db_log);
             }
         }
 
@@ -876,8 +1048,9 @@ int main() {
             
             if (strlen(db_name) == 1 && db_name[0] == '0') {
                 { ECPGdisconnect(__LINE__, "CURRENT");}
-#line 532 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 704 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
+                log_action("Setup", "Connection cancelled, returning to main menu");
                 back_to_start = 1; 
                 continue; 
             }
@@ -885,7 +1058,7 @@ int main() {
             if (strlen(db_name) == 0) {
                 printf("Database name cannot be empty.\n");
                 { ECPGdisconnect(__LINE__, "CURRENT");}
-#line 539 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 712 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
                 continue;
             }
@@ -896,11 +1069,15 @@ int main() {
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, ECPGt_EOIT, 
 	ECPGt_int,&(exists),(long)1,(long)1,sizeof(int), 
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, ECPGt_EORT);}
-#line 544 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 717 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
             
             if (!exists) {
                 printf("Database '%s' does not exist.\n", db_name);
+                char not_exists_log[256];
+                sprintf_s(not_exists_log, sizeof(not_exists_log), "Database '%s' does not exist", db_name);
+                log_action("Database check", not_exists_log);
+
                 printf("1. Try another name\n");
                 printf("2. Create it\n");
                 printf("0. Go back\n");
@@ -912,19 +1089,21 @@ int main() {
                 
                 if (subchoice == 0) {
                     { ECPGdisconnect(__LINE__, "CURRENT");}
-#line 558 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 735 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
+                    log_action("Setup", "Database not found, returning to main menu");
                     back_to_start = 1;
                     continue;
                 } else if (subchoice == 2) {
                     action = 2;
                     { ECPGdisconnect(__LINE__, "CURRENT");}
-#line 563 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 741 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
+                    log_action("Setup", "Will create database instead");
                     continue;
                 } else {
                     { ECPGdisconnect(__LINE__, "CURRENT");}
-#line 566 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 745 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
                     continue;
                 }
@@ -932,48 +1111,72 @@ int main() {
         }
 
         { ECPGdisconnect(__LINE__, "CURRENT");}
-#line 572 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 751 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
 
         printf("\n=== User Login (enter 0 to go back) ===\n");
         printf("Username: ");
         fgets(username, sizeof(username), stdin);
         username[strcspn(username, "\n")] = 0;
-        if (strlen(username) == 1 && username[0] == '0') { back_to_start = 1; continue; }
+        if (strlen(username) == 1 && username[0] == '0') { 
+            log_action("Login", "Login cancelled, returning to main menu");
+            back_to_start = 1; 
+            continue; 
+        }
         
         printf("Password: ");
         fgets(password, sizeof(password), stdin);
         password[strcspn(password, "\n")] = 0;
-        if (strlen(password) == 1 && password[0] == '0') { back_to_start = 1; continue; }
+        if (strlen(password) == 1 && password[0] == '0') { 
+            log_action("Login", "Login cancelled, returning to main menu");
+            back_to_start = 1; 
+            continue; 
+        }
 
         sprintf_s(conn_str, sizeof(conn_str), "%s@%s:%s", db_name, db_host, db_port);
         
         printf("\nConnecting to %s...\n", conn_str);
         printf("Username: %s\n", username);
         
+        char login_log[256];
+        sprintf_s(login_log, sizeof(login_log), "User '%s' attempting to connect to %s", 
+                  username, conn_str);
+        log_action("Login", login_log);
+        
         { ECPGconnect(__LINE__, 0, conn_str , username , password , NULL, 0); }
-#line 590 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 782 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
 
         if (sqlca.sqlcode != 0) {
             print_sql_error();
             printf("Connection failed.\n");
+            log_action("Login failed", "Could not connect to database");
             printf("Press Enter to try again or 0 to go back: ");
             char choice = getchar();
             getchar();
-            if (choice == '0') { back_to_start = 1; continue; }
+            if (choice == '0') { 
+                log_action("Login", "Login failed, returning to main menu");
+                back_to_start = 1; 
+                continue; 
+            }
             else continue;
         }
 
         printf("Connected successfully!\n");
+        log_action("Login", "User successfully connected");
 
         { ECPGdo(__LINE__, 0, 1, NULL, 0, ECPGst_normal, "select case when pg_has_role ( session_user , 'admin_role' , 'member' ) then 1 else 0 end", ECPGt_EOIT, 
 	ECPGt_int,&(is_admin),(long)1,(long)1,sizeof(int), 
 	ECPGt_NO_INDICATOR, NULL , 0L, 0L, 0L, ECPGt_EORT);}
-#line 609 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 807 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
 
         printf("Mode: %s\n\n", is_admin ? "ADMINISTRATOR" : "GUEST");
+        char mode_log[64];
+        sprintf_s(mode_log, sizeof(mode_log), "User mode: %s", 
+                  is_admin ? "ADMINISTRATOR" : "GUEST");
+        log_action("Access", mode_log);
+        
         printf("Press Enter to continue...");
         getchar();
 
@@ -1000,17 +1203,20 @@ int main() {
 
             if (choice == 0) {
                 { ECPGdisconnect(__LINE__, "ALL");}
-#line 637 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 840 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
+                log_message("User logged out normally");
+                log_message("=== Application Ended ===");
                 printf("Ending of work...\n");
                 return 0;
             }
             
             if (choice == 8) {
                 { ECPGdisconnect(__LINE__, "ALL");}
-#line 643 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
+#line 848 "C:\\Users\\xxeeg\\source\\repos\\ECPG\\main.pgc"
 
                 printf("Disconnected. Returning to start...\n");
+                log_action("Session", "User disconnected, returning to main menu");
                 back_to_start = 1;
                 break;
             }
